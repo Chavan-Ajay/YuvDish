@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
+import fs from 'fs';
+import path from 'path';
+
+
 export const register = async (req, res) => {
     try {
         const { cName, bId, password } = req.body;
@@ -14,11 +18,12 @@ export const register = async (req, res) => {
                 success: false
             });
         };
-
-        // const file = req.file;
-        // const fileUri = getDataUri(file);
-        // const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-
+        
+            const file = req.file;
+            const fileUri = getDataUri(file);
+            const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        
+        
         const userChack = await recruiter.findOne({ bId });
 
         if (userChack) {
@@ -36,9 +41,9 @@ export const register = async (req, res) => {
             cName,
             bId,
             password: hashedPassword,
-            // profile: {
-            //     profilePhoto: cloudResponse.secure_url,
-            // }
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
+            }
         });
 
         let newUser = await recruiter.findOne({ bId });
@@ -58,8 +63,8 @@ export const register = async (req, res) => {
         }
 
         return res.status(200).cookie("token", token, {
-            maxAge: 1 * 24 * 60 * 60 * 1000, 
-            httpsOnly: true, 
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+            httpsOnly: true,
             sameSite: 'none',                 // Allow cross-site requests to include the cookie
             secure: true
         })
@@ -116,16 +121,15 @@ export const login = async (req, res) => {
         }
 
         return res.status(200).cookie("token", token, {
-            maxAge: 1 * 24 * 60 * 60 * 1000, 
-            httpsOnly: true, 
+            maxAge: 1 * 24 * 60 * 60 * 1000,
+            httpsOnly: true,
             sameSite: 'none',                 // Allow cross-site requests to include the cookie
             secure: true
+        }).json({
+            message: `Welcome back ${user.cName}`,
+            data,
+            success: true
         })
-            .json({
-                message: `Welcome back ${user.cName}`,
-                data,
-                success: true
-            })
     } catch (error) {
         console.log("Error at /login for recruiter" + error);
     }

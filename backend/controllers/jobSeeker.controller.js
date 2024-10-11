@@ -54,17 +54,18 @@ export const register = async (req, res) => {
             profile: newUser.profile
         }
 
-        return res.status(200).cookie("token", token, {
+        res.cookie("token", token, {
             maxAge: 1 * 24 * 60 * 60 * 1000,
             httpsOnly: true,
-            sameSite: 'none',                 // Allow cross-site requests to include the cookie
-            secure: true
-        })
-            .json({
-                message: `Welcome ${newUser.fullname}`,
-                user,
-                success: true
-            })
+            sameSite: 'none',
+            secure: true,
+        });
+        
+        return res.status(200).json({
+            success: true,
+            message: `Welcome ${newUser.fullname}`,
+            user,
+        });
 
     } catch (error) {
         console.log("Error at /register for jobSeeker" + error);

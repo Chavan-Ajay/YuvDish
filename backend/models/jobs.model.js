@@ -32,11 +32,11 @@ const jobsSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    // company: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'recruiter',
-    //     required: true
-    // },
+    company: {
+        type: mongoose.Schema.Types.String,
+        ref: 'recruiter',
+        required: true
+    },
     created_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'recruiter',
@@ -47,6 +47,39 @@ const jobsSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'jobSeeker',
         }
+    ],
+    jobType: {
+        type: String,
+        required: true
+    },
+    logo: {
+        type: String,
+        required: true
+    },
+    accepted: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'jobSeeker',
+        }
+    ],
+    rejected: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'jobSeeker',
+        }
+    ],
+    status: [
+        {
+            jobSeeker: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'jobSeeker',
+            },
+            status: {
+                type: String,
+            
+            }
+        }
     ]
+
 }, { timestamps: true });
 export const Jobs = mongoose.model("Jobs", jobsSchema);
