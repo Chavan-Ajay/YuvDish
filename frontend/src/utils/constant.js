@@ -1,5 +1,5 @@
 const serverUrlOnline = "https://yuvdish.onrender.com"
-const serverUrlOnline2 = "https://yuv-dish-drajaysvits-projects.vercel.app"
+const serverUrlOnline2 = "https://yuv-dish.vercel.app"
 
 
 const serverUrlOffline = "http://localhost:3000"
