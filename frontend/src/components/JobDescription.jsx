@@ -39,29 +39,27 @@ const JobDescription = () => {
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`${JOBS_API_END_POINT}/get/${jobId}`, { withCredentials: true });
+                const res = await axios.get(`${JOBS_API_END_POINT}/get/${jobId}`, { withCredentials: true })
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application => application.applicant === user?._id)) // Ensure the state is in sync with fetched data
-                    
-                    const res1 = await axios.get(`${Recruiter_API_END_POINT}/image/${singleJob?.created_by}`, { withCredentials: true });
-                    if (res1.data.success) {
-                        setImage(res1.data.image);
-                    }
                 }
-                
             } catch (error) {
                 console.log(error);
             }
         }
         const getImage = async () => {
             try {
-                
+                const res = await axios.get(`${Recruiter_API_END_POINT}/image/${singleJob?.created_by}`, { withCredentials: true });
+                if (res.data.success) {
+                    setImage(res.data.image);
+                }
             } catch (error) {
                 console.log(error);
             }
         }
-        fetchSingleJob();
+        fetchSingleJob().then(getImage())
+
     }, [jobId, dispatch, user?._id]);
 
     return (
