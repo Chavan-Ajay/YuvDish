@@ -94,7 +94,7 @@ const JobDescription = () => {
                 </div>
 
                 {image &&
-                    <img src={image} clasingssName='h-96 w-96 rounded-md' />
+                    <img src={singleJob?.logo} className='h-96 w-96 rounded-md' />
                 }
             </div>
 
