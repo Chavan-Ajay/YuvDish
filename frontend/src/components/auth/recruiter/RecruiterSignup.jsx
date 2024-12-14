@@ -65,16 +65,15 @@ const RecruiterSignup = () => {
         if (gstRegex.test(input.bId)) {
             try {
                 console.log(input.bId);
-                
-                const response = await axios.get('http://sheet.gstincheck.co.in/check/1998d0eafcbf6161f2614833048ea2a5/' + input.bId)
-                console.log(response.data);
-                
-                setGstData(response.data)
+
+                const response = await axios.get('https://yuvdish-6uf3.onrender.com/api/v1/recruiter/gst/' + input.bId)
+                console.log(response.data.data.data); // Inspect the nested structure
+                setGstData(response.data.data.data); // Access the correct level of nesting
                 setPopup(true)
             } catch (error) {
                 toast.error("Invalid GSTIN number.");
             }
-            
+
 
         }
         else if (emailRegex.test(input.bId)) {
@@ -235,38 +234,39 @@ const RecruiterSignup = () => {
                     <span className='text-sm'>Already have an account? <Link to="/recruiter/login" className='text-blue-600'>Login</Link></span>
                 </form>
 
-                {popup && data?.data && (
+                {popup && data && (
                     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
                         {/* Background Overlay */}
                         <div
                             className="absolute top-0 left-0 w-full h-full bg-black opacity-50"
                             onClick={() => setPopup(false)}
+                            aria-label="Close popup"
                         ></div>
 
                         {/* Popup Content */}
                         <div className="relative bg-white p-6 rounded shadow-lg max-w-lg w-full z-60">
                             <h2 className="text-lg font-bold mb-4">GSTIN Details</h2>
                             <p>
-                                <strong>GSTIN:</strong> {data.data.gstin}
+                                <strong>GSTIN:</strong> {data?.gstin || "N/A"}
                             </p>
                             <p>
-                                <strong>Legal Name:</strong> {data.data.lgnm}
+                                <strong>Legal Name:</strong> {data?.lgnm || "N/A"}
                             </p>
                             <p>
-                                <strong>State Jurisdiction:</strong> {data.data.stj}
+                                <strong>State Jurisdiction:</strong> {data?.stj || "N/A"}
                             </p>
                             <p>
-                                <strong>Address:</strong> {data.data.pradr.adr}
+                                <strong>Address:</strong> {data?.pradr?.adr || "N/A"}
                             </p>
                             <p>
                                 <strong>Nature of Business:</strong>{" "}
-                                {data.data.nba.join(", ")}
+                                {data?.nba?.join(", ") || "N/A"}
                             </p>
                             <p>
-                                <strong>Status:</strong> {data.data.sts}
+                                <strong>Status:</strong> {data?.sts || "N/A"}
                             </p>
                             <p>
-                                <strong>Registered Date:</strong> {data.data.rgdt}
+                                <strong>Registered Date:</strong> {data?.rgdt || "N/A"}
                             </p>
 
                             <div className="flex justify-end mt-4">
@@ -286,6 +286,7 @@ const RecruiterSignup = () => {
                         </div>
                     </div>
                 )}
+
 
             </div>
         </div>
