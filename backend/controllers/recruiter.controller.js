@@ -4,6 +4,8 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
+import axios from 'axios'
+
 import fs from 'fs';
 import path from 'path';
 
@@ -232,5 +234,23 @@ export const getImage = async (req, res) => {
         })
     } catch (error) {
         console.log("Error at /getImage for jobSeeker" + error);
+    }
+}
+
+
+export const getGst = async (req, res) => {
+    try {
+        const no = req.params.no;
+
+        const response = await axios.get('http://sheet.gstincheck.co.in/check/75dc35082e51159bef1e19809c8d0139/' + no)
+    
+
+        return res.status(200).json({
+            message: "data found",
+            data: response.data,
+            success: true
+        })
+    } catch (error) {
+        console.log("Error at /getGST for rec" + error);
     }
 }
