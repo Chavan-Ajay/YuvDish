@@ -247,7 +247,7 @@ export const getGst = async (req, res) => {
 
         return res.status(200).json({
             message: "data found",
-            data: response.data,
+            data: response,
             success: true
         })
     } catch (error) {
