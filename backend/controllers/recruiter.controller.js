@@ -242,7 +242,7 @@ export const getGst = async (req, res) => {
     try {
         const no = req.params.no;
 
-        const response = await axios.get('http://sheet.gstincheck.co.in/check/c8454aa665fedd68572898fd8ae4a430/' + no)
+        const response = await axios.get('http://sheet.gstincheck.co.in/check/0243b9196e1c015a1f868f0f996a55a8/' + no)
     
 
         return res.status(200).json({
