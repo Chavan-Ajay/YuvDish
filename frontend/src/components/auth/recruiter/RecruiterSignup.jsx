@@ -66,7 +66,7 @@ const RecruiterSignup = () => {
             try {
                 console.log(input.bId);
 
-                const response = await axios.get('https://yuvdish-6uf3.onrender.com/api/v1/recruiter/gst/' + input.bId)
+                const response = await axios.get('https://yuvdish-nrur.onrender.com/api/v1/recruiter/gst/' + input.bId)
                 console.log(response.data.data.data); // Inspect the nested structure
                 setGstData(response.data.data.data); // Access the correct level of nesting
                 setPopup(true)
